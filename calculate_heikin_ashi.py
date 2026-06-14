@@ -1,6 +1,7 @@
 import pandas as pd
 import numpy as np
 
+
 def calculate_heikin_ashi(df):
     ha_df = df.copy()
     # 1 Calculate Close first (stragiht forward average)
