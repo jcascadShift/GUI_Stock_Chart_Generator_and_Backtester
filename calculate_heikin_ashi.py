@@ -1,8 +1,7 @@
 import pandas as pd
 import numpy as np
 
-
-def caluclate_heikin_ashi(df):
+def calculate_heikin_ashi(df):
     ha_df = df.copy()
     # 1 Calculate Close first (stragiht forward average)
     ha_df['HA_Close'] = (df['Open'] + df['High'] + df['Low'] + df['Close']) / 4
