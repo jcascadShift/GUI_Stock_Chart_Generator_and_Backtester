@@ -1,14 +1,14 @@
+import sys
 import pandas as pd
 import plotly.graph_objects as go
-import tkinter as tk
-from tkinterweb import HtmlFrame
-from datetime import datetime
 from loadandlabelcsvdata import loadcsv
 from calculate_heikin_ashi import calculate_heikin_ashi
+from PyQt6.QtWidgets import QApplication
+from main_window import MainWindow
 from pathlib import Path
 
 
-"""
+""":w
 This is the section that loads the data and converts it to a data frame
 The data is also modified to use the Heikin_ashi candlestick  instead of a regular one
 """
@@ -38,14 +38,16 @@ fig.update_layout(
 )
 
 fig.write_html("heikin_ashi_chart.html")
-# after writing an html file it is then loaded into tkinterweb
+
 html_path = Path.cwd() / "heikin_ashi_chart.html"
 
-chart_url = html_path.as_uri()
+# This launches the main window
+app = QApplication(sys.argv)
 
-root = tk.Tk()
-frame = HtmlFrame(root, messages_enabled=True)
-frame.load_file(chart_url)
-frame.pack(fill="both",expand=True)
+window = MainWindow()
+window.show()
 
-root.mainloop()
+sys.exit(app.exec())
+
+
+
