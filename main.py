@@ -6,6 +6,7 @@ from calculate_heikin_ashi import calculate_heikin_ashi
 from PyQt6.QtWidgets import QApplication
 from main_window import MainWindow
 from pathlib import Path
+from chart_window import ChartWindow
 
 
 """:w

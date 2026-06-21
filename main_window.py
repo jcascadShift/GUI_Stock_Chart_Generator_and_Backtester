@@ -4,6 +4,8 @@ from PyQt6.QtWidgets import (
     QPushButton,
     QVBoxLayout,
 )
+from pathlib import Path
+from chart_window import ChartWindow
 
 
 class MainWindow(QMainWindow):
@@ -14,7 +16,7 @@ class MainWindow(QMainWindow):
 
         self.open_chart_button = QPushButton("Open Chart")
         self.open_chart_button.clicked.connect(self.open_chart_window)
-
+        self.chart_window = None
         central_widget = QWidget()
         layout = QVBoxLayout()
 
@@ -25,6 +27,10 @@ class MainWindow(QMainWindow):
         self.setCentralWidget(central_widget)
 
     def open_chart_window(self):
-        print("Open chart button clicked")
+        html_path = Path.cwd() / "heikin_ashi_chart.html"
+
+        self.chart_window = ChartWindow(html_path)
+        self.chart_window.show()
+
 
 
