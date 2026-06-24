@@ -5,10 +5,10 @@ from PyQt6.QtWebEngineWidgets import QWebEngineView
 from PyQt6.QtWidgets import QMainWindow
 
 class ChartWindow(QMainWindow):
-    def __init__(self, html_path: str | Path):
+    def __init__(self, html_path: str | Path, chart_title: str):
         super().__init__()
 
-        self.setWindowTitle("Heikin Ashi Chart")
+        self.setWindowTitle(chart_title)
         self.web_view = QWebEngineView()
         self.setCentralWidget(self.web_view)
 
