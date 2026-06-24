@@ -1,4 +1,17 @@
+#potentially Proprietary data
 *.csv
 data/
-__pycache__/
 *.html
+#python
+__pycache__/
+*.pyc
+#venv
+venv/
+.venv/
+
+#PyInstaller
+build/
+dist/
+*.spec
+
+
