@@ -25,6 +25,8 @@ class MainWindow(QMainWindow):
         self.chart_selector.addItems([
             "Simple Candlestick",
             "Heikin Ashi",
+            "OHLC",
+            "Line",
         ])
 
 

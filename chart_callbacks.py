@@ -67,18 +67,58 @@ def calcHeikin_ashi(df: pd.DataFrame) -> pd.DataFrame:
     ha_df['HA_Low'] = ha_df[['Low', 'HA_Open', 'HA_Close']].min(axis=1)
     return ha_df
 
+def render_ohlc(df: pd.DataFrame) -> Path:
+    fig = go.Figure(data=[go.Ohlc(
+        x=df['Timestamp'],
+        open=df['Open'],
+        high=df['High'],
+        low=df['Low'],
+        close=df['Close'])])
+
+    fig.update_layout(
+        xaxis=dict(
+            rangeslider=dict(visible=False)),
+        height=900,
+        title="Open High and Low Close Chart"
+    )
+    fig.write_html("Open_High_and_Low_Close_Chart.html")
+    html_path = Path.cwd() / "Open_High_and_Low_Close_Chart.html"
+    return html_path
+
+def calc_ohlc(df: pd.DataFrame) -> pd.DataFrame:
+    return df
+
+def render_line(df: pd.DataFrame) -> Path:
+    fig = go.Figure(data=[go.Scatter(
+        x=df['Timestamp'],
+        y=df['Close'],
+        mode='lines')])
+
+    fig.update_layout(
+        xaxis=dict(
+            rangeslider=dict(visible=False)),
+        height=900,
+        title="Line"
+    )
+    fig.write_html("Line.html")
+    html_path = Path.cwd() / "Line.html"
+    return html_path
+
+def calc_line(df: pd.DataFrame) -> pd.DataFrame:
+    return df
+
 render_chart_handlers = {
     "Simple Candlestick": renderSimpleCandlestick,
-    #"Bar" : renderbar,
-    #"line" : renderline,
+    "OHLC" : render_ohlc,
+    "Line" : render_line,
     #"Point & Figure": renderPointAndFigure,
     "Heikin Ashi": renderHeikin_ashi,
 }
 
 calc_chart_handlers = {
     "Simple Candlestick": calcSimpleCandlestick,
-    #"Bar" : calcbar,
-    #"line" : calcline,
+    "OHLC" : calc_ohlc,
+    "Line" : calc_line,
     #"Point & Figure": calcPointAndFigure,
     "Heikin Ashi": calcHeikin_ashi,
 }
