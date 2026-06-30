@@ -1,4 +1,6 @@
 #potentially Proprietary data
+*Chart
+*Chart.html
 *.csv
 data/
 *.html
@@ -13,5 +15,7 @@ venv/
 build/
 dist/
 *.spec
+
+
 
 changeslog.txt
