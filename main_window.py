@@ -28,6 +28,7 @@ class MainWindow(QMainWindow):
             "Heikin Ashi",
             "OHLC",
             "Line",
+            "Point & Figure",
         ])
 
 
@@ -53,8 +54,7 @@ class MainWindow(QMainWindow):
         dfclean = calc_chart_handlers[selected_chart](dfinit)
         #print(df[['Open','Close', 'HA_Open', 'HA_Close']].head(10))
 
-        df = calc_chart_handlers[selected_chart](dfclean)
-        html_path = render_chart_handlers[selected_chart](df)
+        html_path = render_chart_handlers[selected_chart](dfclean)
 
         self.chart_window = ChartWindow(html_path, selected_chart)
         self.chart_window.show()
