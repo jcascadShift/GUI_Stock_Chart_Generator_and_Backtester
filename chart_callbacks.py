@@ -3,26 +3,50 @@ import plotly.graph_objects as go
 import numpy as np
 from pathlib import Path
 
+
+
+
+
+def create_x_axis(df: pd.DataFrame, x_axis_length: int = 25) -> pd.DataFrame:
+    """  This is the function that controles the horizontal range of the graphs
+    TODO: this needs to be modified in the gui with a slider
+    """
+    df = df.head(x_axis_length).copy()
+    df["X"] = range(len(df))
+    return df
+
+def format_x_axis(fig: go.Figure, df: pd.DataFrame) -> None:
+    """ This is just hear to update the x value and refactor it out of the render_functions"""
+    fig.update_xaxes(
+        tickmode="array",
+        tickvals=df["X"],
+        ticktext=df["Timestamp"].dt.strftime("%H:%M"),
+        title="Time in minutes",
+        rangeslider_visible=False,
+    )
+
+
 def clean_price_data(df: pd.DataFrame) -> pd.DataFrame:
-    df['TimeStamp'] = pd.to_datetime(df['Timestamp'], format='%Y-%m-%d %H:%M', errors='coerce')
-    df=df.dropna(subset=['TimeStamp'])
-    df = df.head(500)
+    df['Timestamp'] = pd.to_datetime(df['Timestamp'], format='%Y-%m-%d %H:%M', errors='coerce')
+    df=df.dropna(subset=['Timestamp'])
     return df
 
 def renderSimpleCandlestick(df: pd.DataFrame) -> Path:
+    df = create_x_axis(df)
     fig = go.Figure(data=[go.Candlestick(
-        x=df['Timestamp'],
+        x=df["X"],
         open=df['Open'],
         high=df['High'],
         low=df['Low'],
         close=df['Close'])])
 
+    format_x_axis(fig, df)
+
     fig.update_layout(
-        xaxis=dict(
-            rangeslider=dict(visible=False)),
         height=900,
         title="Simple CandleStick Chart"
     )
+
     fig.write_html("Simple_Candlestick_chart.html")
     html_path = Path.cwd() / "Simple_Candlestick_chart.html"
     return html_path

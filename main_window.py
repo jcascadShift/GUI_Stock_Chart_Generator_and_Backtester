@@ -10,6 +10,7 @@ from chart_window import ChartWindow
 from chart_callbacks import (
     render_chart_handlers,
     calc_chart_handlers,
+    clean_price_data,
 )
 from loadandlabelcsvdata import loadcsv
 
@@ -45,13 +46,14 @@ class MainWindow(QMainWindow):
     def open_chart_window(self):
 
         dfinit = loadcsv()
+        dfclean = clean_price_data(dfinit)
 
         selected_chart = self.chart_selector.currentText()
 
-        df = calc_chart_handlers[selected_chart](dfinit)
+        dfclean = calc_chart_handlers[selected_chart](dfinit)
         #print(df[['Open','Close', 'HA_Open', 'HA_Close']].head(10))
 
-
+        df = calc_chart_handlers[selected_chart](dfclean)
         html_path = render_chart_handlers[selected_chart](df)
 
         self.chart_window = ChartWindow(html_path, selected_chart)
