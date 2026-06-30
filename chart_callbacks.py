@@ -57,6 +57,8 @@ def calcSimpleCandlestick(df: pd.DataFrame) -> pd.DataFrame:
 
 
 def renderHeikin_ashi(df: pd.DataFrame) -> Path:
+    df = create_x_axis(df)
+
     fig = go.Figure(data=[go.Candlestick(
         x=df['Timestamp'],
         open=df['HA_Open'],
@@ -64,9 +66,9 @@ def renderHeikin_ashi(df: pd.DataFrame) -> Path:
         low=df['HA_Low'],
         close=df['HA_Close'])])
 
+    format_x_axis(fig, df)
+
     fig.update_layout(
-        xaxis=dict(
-            rangeslider=dict(visible=False)),
         height=900,
         title="Heikin Ashi Candlestick Chart"
     )
