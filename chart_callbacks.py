@@ -94,6 +94,9 @@ def calcHeikin_ashi(df: pd.DataFrame) -> pd.DataFrame:
     return ha_df
 
 def render_ohlc(df: pd.DataFrame) -> Path:
+
+    df = create_x_axis(df)
+
     fig = go.Figure(data=[go.Ohlc(
         x=df['Timestamp'],
         open=df['Open'],
@@ -102,11 +105,11 @@ def render_ohlc(df: pd.DataFrame) -> Path:
         close=df['Close'])])
 
     fig.update_layout(
-        xaxis=dict(
-            rangeslider=dict(visible=False)),
         height=900,
         title="Open High and Low Close Chart"
     )
+
+    format_x_axis(fig, df)
     fig.write_html("Open_High_and_Low_Close_Chart.html")
     html_path = Path.cwd() / "Open_High_and_Low_Close_Chart.html"
     return html_path
