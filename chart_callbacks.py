@@ -118,17 +118,19 @@ def calc_ohlc(df: pd.DataFrame) -> pd.DataFrame:
     return df
 
 def render_line(df: pd.DataFrame) -> Path:
+    df = create_x_axis(df)
+
     fig = go.Figure(data=[go.Scatter(
         x=df['Timestamp'],
         y=df['Close'],
         mode='lines')])
 
     fig.update_layout(
-        xaxis=dict(
-            rangeslider=dict(visible=False)),
         height=900,
         title="Line"
     )
+
+    format_x_axis(fig, df)
     fig.write_html("Line.html")
     html_path = Path.cwd() / "Line.html"
     return html_path
