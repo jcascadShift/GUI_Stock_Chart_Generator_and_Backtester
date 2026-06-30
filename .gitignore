@@ -14,4 +14,4 @@ build/
 dist/
 *.spec
 
-changes.log.txt
+changeslog.txt
