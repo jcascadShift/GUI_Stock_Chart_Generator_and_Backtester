@@ -8,20 +8,17 @@ from pathlib import Path
 
 
 def create_x_axis(df: pd.DataFrame, x_axis_length: int = 25) -> pd.DataFrame:
-    """  This is the function that controles the horizontal range of the graphs
-    TODO: this needs to be modified in the gui with a slider
-    """
+    """  This is the function that controles the horizontal range of the graphs """
     df = df.head(x_axis_length).copy()
     df["X"] = range(len(df))
     return df
 
 def format_x_axis(fig: go.Figure, df: pd.DataFrame) -> None:
-    """ This is just hear to update the x value and refactor it out of the render_functions"""
+    """ This is just here to update the x value and refactor it out of the render_functions"""
     fig.update_xaxes(
         tickmode="array",
         tickvals=df["X"],
         ticktext=df["Timestamp"].dt.strftime("%H:%M"),
-        title="Time in minutes",
         rangeslider_visible=False,
     )
 
@@ -31,8 +28,8 @@ def clean_price_data(df: pd.DataFrame) -> pd.DataFrame:
     df=df.dropna(subset=['Timestamp'])
     return df
 
-def renderSimpleCandlestick(df: pd.DataFrame) -> Path:
-    df = create_x_axis(df)
+def renderSimpleCandlestick(df: pd.DataFrame, chart_width: int = 25) -> Path:
+    df = create_x_axis(df, chart_width)
     fig = go.Figure(data=[go.Candlestick(
         x=df["X"],
         open=df['Open'],
@@ -56,11 +53,11 @@ def calcSimpleCandlestick(df: pd.DataFrame) -> pd.DataFrame:
     return df
 
 
-def renderHeikin_ashi(df: pd.DataFrame) -> Path:
-    df = create_x_axis(df)
+def renderHeikin_ashi(df: pd.DataFrame, chart_width: int = 25) -> Path:
+    df = create_x_axis(df, chart_width)
 
     fig = go.Figure(data=[go.Candlestick(
-        x=df['Timestamp'],
+        x=df["X"],
         open=df['HA_Open'],
         high=df['HA_High'],
         low=df['HA_Low'],
@@ -93,12 +90,12 @@ def calcHeikin_ashi(df: pd.DataFrame) -> pd.DataFrame:
     ha_df['HA_Low'] = ha_df[['Low', 'HA_Open', 'HA_Close']].min(axis=1)
     return ha_df
 
-def render_ohlc(df: pd.DataFrame) -> Path:
+def render_ohlc(df: pd.DataFrame, chart_width: int = 25) -> Path:
 
-    df = create_x_axis(df)
+    df = create_x_axis(df, chart_width)
 
     fig = go.Figure(data=[go.Ohlc(
-        x=df['Timestamp'],
+        x=df["X"],
         open=df['Open'],
         high=df['High'],
         low=df['Low'],
@@ -117,11 +114,11 @@ def render_ohlc(df: pd.DataFrame) -> Path:
 def calc_ohlc(df: pd.DataFrame) -> pd.DataFrame:
     return df
 
-def render_line(df: pd.DataFrame) -> Path:
+def render_line(df: pd.DataFrame, chart_width: int = 25) -> Path:
     df = create_x_axis(df)
 
     fig = go.Figure(data=[go.Scatter(
-        x=df['Timestamp'],
+        x=df["X"],
         y=df['Close'],
         mode='lines')])
 
@@ -272,8 +269,7 @@ def create_point_figure_window(df: pd.DataFrame,visible_columns: int = 50) -> pd
     return df[df["X"] >= min_column].copy()
 
 
-def renderPointAndFigure(df: pd.DataFrame) -> Path:
-
+def renderPointAndFigure(df: pd.DataFrame, chart_width: int =25 ) -> Path:
     #Do not include call to create_x_axis
     # point and figure charts work different x_axis is handled eslwhere
     fig = go.Figure()
